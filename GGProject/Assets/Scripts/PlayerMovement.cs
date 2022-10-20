@@ -10,11 +10,15 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 10f;
     public float jumpHeight = 7f;
     public float glideSpeed = 0.1f;
-    public GameObject player;
     public GameObject glider;
     public GameObject testBullet;
+
     private bool grappleActive = false;
     private SpringJoint grappleJoint;
+    private Vector3 grapplePoint;
+    public Transform camera, player;
+    public float minGrappleDistance = 0.2f;
+    public float maxGrappleDistance = 100f;
 
     private void Awake()
     {
@@ -95,20 +99,24 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !grappleActive)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(camera.position, camera.forward, out hit, maxGrappleDistance))
             {
-                GameObject hitObject = hit.transform.gameObject;
-                
-                if (hitObject != null && GrappleTargetCheck(hitObject))
-                {
-                    grappleActive = true;
-                    Debug.Log("Grapple has been activated.");
+                grapplePoint = hit.point;
 
-                    Grapple(hit, 0.2f, 1.0f, 10f, 0.2f, 0.025f);
-                }
+                grappleJoint = player.gameObject.AddComponent<SpringJoint>();
+                grappleJoint.autoConfigureConnectedAnchor = false;
+                grappleJoint.connectedAnchor = grapplePoint;
+
+                float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
+
+                grappleJoint.maxDistance = distanceFromPoint * 0.8f;
+                grappleJoint.minDistance = distanceFromPoint * 0.25f;
+
+                grappleJoint.spring = 4.5f;
+                grappleJoint.damper = 7f;
+                grappleJoint.massScale = 4.5f;
             }
         }
 
@@ -137,29 +145,6 @@ public class PlayerMovement : MonoBehaviour
                 return true;
         }
 
-    }
-
-    private void Grapple(RaycastHit hit, float minDistance, float maxDistance, float spring, float damper, float tolerance)
-    {
-        grappleJoint = gameObject.AddComponent<SpringJoint>();
-
-        if (hit.rigidbody != null)
-        {
-            grappleJoint.connectedBody = hit.rigidbody;
-        }
-        else
-        {
-            grappleJoint.connectedBody = hit.collider.gameObject.AddComponent<Rigidbody>();
-        }
-        
-        Debug.Log("Connected Rigidbody is on " + grappleJoint.connectedBody.gameObject.name);
-
-        grappleJoint.minDistance = minDistance;
-        grappleJoint.maxDistance = maxDistance;
-
-        grappleJoint.spring = spring;
-        grappleJoint.damper = damper;
-        grappleJoint.tolerance = tolerance;
     }
 
     /*public void TestShooter(InputAction.CallbackContext context)
