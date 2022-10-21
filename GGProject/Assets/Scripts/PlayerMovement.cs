@@ -7,7 +7,8 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody playerRigidbody;
     private PlayerControl playerInputs;
-    public float speed = 10f;
+    public float speed;
+    public float rotateSpeed;
     public float jumpHeight = 7f;
     public float glideSpeed = 0.1f;
     public GameObject glider;
@@ -16,9 +17,10 @@ public class PlayerMovement : MonoBehaviour
     private bool grappleActive = false;
     private SpringJoint grappleJoint;
     private Vector3 grapplePoint;
-    public Transform camera, player;
+    public Transform cameraTransform, player;
     public float minGrappleDistance = 0.2f;
     public float maxGrappleDistance = 100f;
+    private LineRenderer lineRenderer;
 
     private void Awake()
     {
@@ -30,11 +32,17 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         Vector2 moveVector = playerInputs.Player.Movement.ReadValue<Vector2>();
-        //Button rotateVector = playerInputs.Player.Rotate.ReadValue<Button>();
-        //print(rotateVector);
-        transform.position += new Vector3(moveVector.x, 0, moveVector.y) * speed * Time.deltaTime; // makes character move with WASD input
-        //transform.Rotate(moveVector.y * Time.deltaTime, moveVector.x, 0);
-        //playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, Mathf.Sign(playerRigidbody.velocity.y) * glideSpeed);
+        Vector3 movementDirection = new Vector3(moveVector.x, 0, moveVector.y);
+        movementDirection = Quaternion.AngleAxis(cameraTransform.rotation.eulerAngles.y, Vector3.up) * movementDirection;
+        movementDirection.Normalize();
+
+        transform.position += movementDirection * speed * Time.deltaTime; // makes character move with WASD input
+
+        if (movementDirection != Vector3.zero)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotateSpeed * Time.deltaTime);
+        }
 
         // Check if grappling state needs to be changed
         GrappleCheck();
@@ -101,22 +109,39 @@ public class PlayerMovement : MonoBehaviour
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(camera.position, camera.forward, out hit, maxGrappleDistance))
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, maxGrappleDistance))
             {
-                grapplePoint = hit.point;
+                if (GrappleTargetCheck(hit.transform.gameObject))
+                {
+                    grappleActive = true;
 
-                grappleJoint = player.gameObject.AddComponent<SpringJoint>();
-                grappleJoint.autoConfigureConnectedAnchor = false;
-                grappleJoint.connectedAnchor = grapplePoint;
+                    grapplePoint = hit.point;
 
-                float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
+                    grappleJoint = player.gameObject.AddComponent<SpringJoint>();
+                    grappleJoint.autoConfigureConnectedAnchor = false;
+                    grappleJoint.connectedAnchor = grapplePoint;
 
-                grappleJoint.maxDistance = distanceFromPoint * 0.8f;
-                grappleJoint.minDistance = distanceFromPoint * 0.25f;
+                    float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
 
-                grappleJoint.spring = 4.5f;
-                grappleJoint.damper = 7f;
-                grappleJoint.massScale = 4.5f;
+                    grappleJoint.maxDistance = distanceFromPoint * 0.8f;
+                    grappleJoint.minDistance = distanceFromPoint * 0.25f;
+
+                    grappleJoint.spring = 10f;
+                    grappleJoint.damper = 7f;
+                    grappleJoint.massScale = 4.5f;
+
+                    lineRenderer = new GameObject("Line").AddComponent<LineRenderer>();
+                    lineRenderer.startColor = Color.black;
+                    lineRenderer.endColor = Color.black;
+                    lineRenderer.startWidth = 0.01f;
+                    lineRenderer.endWidth = 0.01f;
+                    lineRenderer.positionCount = 2;
+                    lineRenderer.useWorldSpace = true;
+
+                    lineRenderer.SetPosition(0, transform.position);
+                    lineRenderer.SetPosition(1, grapplePoint);
+                }
+                
             }
         }
 
@@ -129,6 +154,16 @@ public class PlayerMovement : MonoBehaviour
             {
                 Destroy(grappleJoint);
             }
+
+            if (lineRenderer != null)
+            {
+                Destroy(lineRenderer.gameObject);
+            }
+        }
+
+        if (grappleActive)
+        {
+            lineRenderer.SetPosition(0, transform.position);
         }
     }
 
@@ -145,6 +180,18 @@ public class PlayerMovement : MonoBehaviour
                 return true;
         }
 
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (focus)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     /*public void TestShooter(InputAction.CallbackContext context)
