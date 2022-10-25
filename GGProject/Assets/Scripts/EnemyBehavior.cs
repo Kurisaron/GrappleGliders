@@ -6,7 +6,8 @@ public class EnemyBehavior : MonoBehaviour
 {
     [SerializeField] private GameObject enemyObject;
     [SerializeField] private float enemySpeed, enemyRange;
-    [SerializeField] private BoxCollider FieldOfView;
+    [SerializeField] private BoxCollider FieldOfView, enemyHitBox;
+    public PlayerData playerData;
     public Transform player;
     private Vector3 move = new Vector3(1, 0, 0);
     [SerializeField] private bool playerDetected = false;
@@ -14,7 +15,7 @@ public class EnemyBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemySpeed = 7;
+        enemySpeed = 5;
         enemyRange = 10;
 
     }
@@ -32,7 +33,7 @@ public class EnemyBehavior : MonoBehaviour
             EnemyAction();
         }
     }
-    public void EnemyRangeMove()
+    public void EnemyRangeMove() // the range the enemy moves in while not detecting the player
     {
         transform.position += move * enemySpeed * Time.deltaTime;
         if (-enemyRange >= transform.position.x)
@@ -46,11 +47,11 @@ public class EnemyBehavior : MonoBehaviour
             move.x *= -1;
         }
     }
-    public void EnemyAction()
+    public void EnemyAction() // enemy homing movement
     {
         transform.LookAt(player);
         transform.position += transform.forward * enemySpeed * Time.deltaTime;
-        Debug.Log("player detected");
+        //Debug.Log("player detected");
         float distance = Vector3.Distance(player.transform.position, this.transform.position);
         /*if(distance > FieldOfView.size.z)
         {
@@ -64,6 +65,15 @@ public class EnemyBehavior : MonoBehaviour
             playerDetected = true;
             FieldOfView.enabled = false;
             
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        ContactPoint playerEnemyContact = collision.contacts[0];
+        if (collision.contacts[0].thisCollider.gameObject.CompareTag("Player"))
+        {
+            //playerData.currentPlayerHealth--;
+            print(playerEnemyContact);
         }
     }
 }

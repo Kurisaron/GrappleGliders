@@ -14,7 +14,7 @@ public class CannonBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemySpeed = 100; // i think it has to be this quick :|
+        enemySpeed = 50; // i think it has to be this quick :|
         bulletLife = 3;
     }
 
@@ -36,7 +36,7 @@ public class CannonBehavior : MonoBehaviour
         //Quaternion bulletRotation = new Quaternion(0, 90, 0, 0);
         while(true)
         {
-            bullet = Instantiate(enemyBullet, enemyObject.transform.position, enemyObject.transform.rotation);
+            bullet = Instantiate(enemyBullet, enemyObject.transform.position, transform.rotation);
             bullet.transform.LookAt(player);
             //bullet.transform.position += transform.forward * enemySpeed * Time.deltaTime;
             bullet.AddForce(transform.forward * enemySpeed, ForceMode.Impulse);
