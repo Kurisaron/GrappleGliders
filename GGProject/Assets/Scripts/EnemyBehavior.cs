@@ -73,7 +73,7 @@ public class EnemyBehavior : MonoBehaviour
         if (collision.contacts[0].thisCollider.gameObject.CompareTag("Player"))
         {
             //playerData.currentPlayerHealth--;
-            print(playerEnemyContact);
+            
         }
     }
 }
