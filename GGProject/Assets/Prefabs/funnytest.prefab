@@ -125,4 +125,8 @@ MonoBehaviour:
   enemyObject: {fileID: 4503520388570971924}
   enemySpeed: 10
   enemyRange: 0
+  FieldOfView: {fileID: 4503520388570971934}
+  enemyHitBox: {fileID: 4503520388570971931}
+  playerData: {fileID: 0}
   player: {fileID: 0}
+  playerDetected: 0

@@ -6,23 +6,47 @@ using UnityEngine.UI;
 public class PlayerData : MonoBehaviour
 {
     [SerializeField] private Text scoreText, healthText, clockText, buttonPressedText;
+    [SerializeField] private GameObject player;
     public int playerScore = 0;
     public float currentPlayerHealth = 5;
     public float maxPlayerHealth = 5;
-    
+    public float playerInvincibilityCooldown = 5;
+    public bool playerInvincible = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        scoreText.text = "Score: " + playerScore.ToString();
-        healthText.text = "Health: " + currentPlayerHealth.ToString() + "/" + maxPlayerHealth.ToString();
+        
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        scoreText.text = "Score: " + playerScore.ToString();
+        healthText.text = "Health: " + currentPlayerHealth.ToString() + "/" + maxPlayerHealth.ToString();
+
         Clock();
         PrintButtonPressed();
+    }
+    IEnumerator AttackingTime(float playerInvincibilityCooldown) // this controls the player taking damage
+    {
+        currentPlayerHealth--;
+        for (float t = 0; t < playerInvincibilityCooldown; t += Time.deltaTime)
+        {
+            playerInvincible = true;
+            player.GetComponent<MeshRenderer>().material.color = Color.cyan;
+            yield return null;
+        }
+        playerInvincible = false;
+        player.GetComponent<MeshRenderer>().material.color = Color.gray;
+    }
+    public void Attacked()
+    {
+        if(playerInvincible == false)
+        {
+            StartCoroutine(AttackingTime(playerInvincibilityCooldown));
+        }
     }
     void Clock()
     {
@@ -32,7 +56,7 @@ public class PlayerData : MonoBehaviour
         string niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
         clockText.text = niceTime;
     }
-    void PrintButtonPressed()
+    void PrintButtonPressed() // prints buttons pressed on the keyboard, space doesn't work
     {
         if (Input.anyKeyDown)
         {

@@ -10,11 +10,12 @@ public class CannonBehavior : MonoBehaviour
     [SerializeField] private bool playerDetected = false;
     [SerializeField] private Rigidbody enemyBullet;
     public Transform player;
+    public PlayerData playerData;
 
     // Start is called before the first frame update
     void Start()
     {
-        enemySpeed = 50; // i think it has to be this quick :|
+        enemySpeed = 10; // i think it has to be this quick :|
         bulletLife = 3;
     }
 
@@ -39,7 +40,7 @@ public class CannonBehavior : MonoBehaviour
             bullet = Instantiate(enemyBullet, enemyObject.transform.position, transform.rotation);
             bullet.transform.LookAt(player);
             //bullet.transform.position += transform.forward * enemySpeed * Time.deltaTime;
-            bullet.AddForce(transform.forward * enemySpeed, ForceMode.Impulse);
+            bullet.AddForce(bullet.transform.forward * enemySpeed, ForceMode.Impulse);
             Destroy(bullet.gameObject, bulletLife);
             yield return new WaitForSeconds(bulletLife);
 

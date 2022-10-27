@@ -17,20 +17,27 @@ public class EnemyBehavior : MonoBehaviour
     {
         enemySpeed = 5;
         enemyRange = 10;
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (playerDetected == false)
+        float moveRadius = 5f;
+        /*if (playerDetected == false)
         {
             EnemyRangeMove();
         }
         else
         {
             EnemyAction();
+        }*/
+        if (Vector3.Distance(gameObject.transform.position, player.transform.position) <= moveRadius)
+        {
+            EnemyAction();
+        }
+        else
+        {
+            EnemyRangeMove();
         }
     }
     public void EnemyRangeMove() // the range the enemy moves in while not detecting the player
@@ -58,22 +65,25 @@ public class EnemyBehavior : MonoBehaviour
             FieldOfView.enabled = true;
         }*/
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player")
+        
+        if (other.gameObject.tag == "Player")
         {
-            playerDetected = true;
-            FieldOfView.enabled = false;
+
+            //playerDetected = true;
+            //FieldOfView.enabled = false;
             
         }
     }
     private void OnCollisionEnter(Collision collision)
     {
-        ContactPoint playerEnemyContact = collision.contacts[0];
-        if (collision.contacts[0].thisCollider.gameObject.CompareTag("Player"))
+        if (collision.gameObject.tag == "Player")
         {
-            //playerData.currentPlayerHealth--;
-            
+            Debug.Log("player hit");
+            playerData.Attacked();
+
+
         }
     }
 }

@@ -124,8 +124,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyObject: {fileID: 428260578250530784}
-  enemyBullet: {fileID: 0}
   enemySpeed: 0
+  bulletLife: 0
   FieldOfView: {fileID: 2887334669659473936}
   playerDetected: 0
-  player: {fileID: 0}
+  enemyBullet: {fileID: 3129018422336775657, guid: f0f3c5e66ae57244d87a8c398f35056d, type: 3}
+  player: {fileID: 9162399936029171459, guid: 1844dd98a26b92b4199d18e0ca8c8e54, type: 3}
+  playerData: {fileID: 0}
