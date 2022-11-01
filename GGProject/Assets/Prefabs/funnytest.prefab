@@ -93,7 +93,7 @@ BoxCollider:
   m_GameObject: {fileID: 4503520388570971924}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -127,6 +127,6 @@ MonoBehaviour:
   enemyRange: 0
   FieldOfView: {fileID: 4503520388570971934}
   enemyHitBox: {fileID: 4503520388570971931}
-  playerData: {fileID: 0}
-  player: {fileID: 0}
+  playerData: {fileID: -295447196811946114, guid: afc8e0a017f8fe54d9d21e590302250c, type: 3}
+  player: {fileID: 3732170497894972526, guid: afc8e0a017f8fe54d9d21e590302250c, type: 3}
   playerDetected: 0

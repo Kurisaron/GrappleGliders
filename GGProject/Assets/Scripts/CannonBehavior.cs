@@ -38,6 +38,7 @@ public class CannonBehavior : MonoBehaviour
         while(true)
         {
             bullet = Instantiate(enemyBullet, enemyObject.transform.position, transform.rotation);
+            bullet.GetComponent<Bullet>().playerData = playerData;
             bullet.transform.LookAt(player);
             //bullet.transform.position += transform.forward * enemySpeed * Time.deltaTime;
             bullet.AddForce(bullet.transform.forward * enemySpeed, ForceMode.Impulse);

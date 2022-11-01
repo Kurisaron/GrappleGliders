@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 3732170497894972520}
   - component: {fileID: 3732170497894972521}
   - component: {fileID: 3732170497894972523}
+  - component: {fileID: -295447196811946114}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -270,6 +271,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-295447196811946114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3732170497894972527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7533c81ced7a2574a84a7d838237153a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 0}
+  healthText: {fileID: 0}
+  clockText: {fileID: 0}
+  buttonPressedText: {fileID: 0}
+  player: {fileID: 0}
+  playerScore: 0
+  currentPlayerHealth: 5
+  maxPlayerHealth: 5
+  playerInvincibilityCooldown: 5
+  playerInvincible: 0
 --- !u!1 &3732170497985312900
 GameObject:
   m_ObjectHideFlags: 0

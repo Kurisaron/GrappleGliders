@@ -65,18 +65,18 @@ public class EnemyBehavior : MonoBehaviour
             FieldOfView.enabled = true;
         }*/
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        
+
         if (other.gameObject.tag == "Player")
         {
+            Debug.Log("player hit");
+            playerData.Attacked();
 
-            //playerDetected = true;
-            //FieldOfView.enabled = false;
-            
+
         }
     }
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
@@ -85,5 +85,5 @@ public class EnemyBehavior : MonoBehaviour
 
 
         }
-    }
+    }*/
 }
