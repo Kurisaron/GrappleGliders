@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -21,12 +22,16 @@ public class PlayerMovement : MonoBehaviour
     public float minGrappleDistance = 0.2f;
     public float maxGrappleDistance = 100f;
     private LineRenderer lineRenderer;
+    public Image reticle;
+    private Color grappleInactiveColor = Color.red;
+    private Color grappleActiveColor = Color.blue;
 
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
         playerInputs = new PlayerControl();
         playerInputs.Enable();
+        reticle.color = grappleInactiveColor;
         //playerRigidbody.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationZ;
     }
     private void Update()
@@ -123,11 +128,11 @@ public class PlayerMovement : MonoBehaviour
 
                     float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
 
-                    grappleJoint.maxDistance = distanceFromPoint * 0.8f;
+                    grappleJoint.maxDistance = distanceFromPoint * 0.5f;
                     grappleJoint.minDistance = distanceFromPoint * 0.25f;
 
-                    grappleJoint.spring = 10f;
-                    grappleJoint.damper = 7f;
+                    grappleJoint.spring = 100f;
+                    grappleJoint.damper = 50f;
                     grappleJoint.massScale = 4.5f;
 
                     lineRenderer = new GameObject("Line").AddComponent<LineRenderer>();
@@ -140,6 +145,8 @@ public class PlayerMovement : MonoBehaviour
 
                     lineRenderer.SetPosition(0, transform.position);
                     lineRenderer.SetPosition(1, grapplePoint);
+
+                    reticle.color = grappleActiveColor;
                 }
                 
             }
@@ -159,6 +166,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 Destroy(lineRenderer.gameObject);
             }
+
+            reticle.color = grappleInactiveColor;
         }
 
         if (grappleActive)
