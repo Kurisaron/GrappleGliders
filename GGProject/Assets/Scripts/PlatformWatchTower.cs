@@ -17,10 +17,19 @@ public class PlatformWatchTower : MonoBehaviour
     {
         
     }
-    private void OnCollisionEnter(Collision other)
+    /*private void OnCollisionEnter(Collision other)
     {
 
         if (other.gameObject.tag == "Player")
+        {
+            Debug.Log("player is on platform");
+            levelFinishedScreen.SetActive(true);
+
+        }
+    }*/
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
         {
             Debug.Log("player is on platform");
             levelFinishedScreen.SetActive(true);

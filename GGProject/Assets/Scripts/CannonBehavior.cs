@@ -16,7 +16,7 @@ public class CannonBehavior : MonoBehaviour
     void Start()
     {
         enemySpeed = 10; // i think it has to be this quick :|
-        bulletLife = 3;
+        bulletLife = 2;
     }
 
     // Update is called once per frame
@@ -49,7 +49,7 @@ public class CannonBehavior : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             //playerDetected = true;
             //FieldOfView.enabled = false;
@@ -59,11 +59,12 @@ public class CannonBehavior : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             //playerDetected = true;
             //FieldOfView.enabled = false;
-            StopCoroutine(EnemyShoot());
+            Debug.Log("player out of view");
+            StopAllCoroutines(); // stop coroutine didn't work so failsafe again
         }
     }
 }

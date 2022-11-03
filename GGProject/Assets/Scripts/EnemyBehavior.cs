@@ -7,15 +7,16 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private GameObject enemyObject;
     [SerializeField] private float enemySpeed, enemyRange;
     [SerializeField] private BoxCollider FieldOfView, enemyHitBox;
+    [SerializeField] private Rigidbody playerRigidbody;
     public PlayerData playerData;
     public Transform player;
     private Vector3 move = new Vector3(1, 0, 0);
     [SerializeField] private bool playerDetected = false;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        enemySpeed = 5;
+        enemySpeed = 3;
         enemyRange = 10;
     }
 
@@ -72,7 +73,7 @@ public class EnemyBehavior : MonoBehaviour
         {
             Debug.Log("player hit");
             playerData.Attacked();
-
+            playerRigidbody.AddForce((player.transform.position - this.transform.position).normalized * 6, ForceMode.Impulse);
 
         }
     }

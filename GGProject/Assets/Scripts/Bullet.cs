@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public GameObject player;
+    //public GameObject player;
     public PlayerData playerData;
     // Start is called before the first frame update
     void Start()
     {
-        playerData = player.GetComponentInChildren<PlayerData>(); // this isn't working, you have to attach to the inspector but it won't allow me :/
+        //playerData = player.GetComponentInChildren<PlayerData>();
     }
 
     // Update is called once per frame
@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("player hit");
-            //playerData.Attacked();
+            playerData.Attacked();
             Destroy(this.gameObject);
 
         }

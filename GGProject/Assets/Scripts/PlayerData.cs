@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class PlayerData : MonoBehaviour
 {
     [SerializeField] private Text scoreText, healthText, clockText, buttonPressedText;
-    [SerializeField] private GameObject player;
+    public Text finalScoreText, finalLivesText, finalTimeText;
+    [SerializeField] private GameObject player, levelFinishedScreen;
     public int playerScore = 0;
     public float currentPlayerHealth = 5;
     public float maxPlayerHealth = 5;
@@ -27,7 +28,7 @@ public class PlayerData : MonoBehaviour
         scoreText.text = "Score: " + playerScore.ToString();
         healthText.text = "Health: " + currentPlayerHealth.ToString() + "/" + maxPlayerHealth.ToString();
 
-        Clock();
+        clockText.text = Clock();
         PrintButtonPressed();
     }
     IEnumerator AttackingTime(float playerInvincibilityCooldown) // this controls the player taking damage
@@ -49,13 +50,13 @@ public class PlayerData : MonoBehaviour
             StartCoroutine(AttackingTime(playerInvincibilityCooldown));
         }
     }
-    void Clock()
+    string Clock()
     {
         float timer = Time.time;
         int minutes = Mathf.FloorToInt(timer / 60F);
         int seconds = Mathf.FloorToInt(timer - minutes * 60);
         string niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
-        clockText.text = niceTime;
+        return niceTime;
     }
     void PrintButtonPressed() // prints buttons pressed on the keyboard, space doesn't work
     {
@@ -75,7 +76,21 @@ public class PlayerData : MonoBehaviour
                 buttonPressedText.text = "Button Right Now: " + kcode;
         }*/
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Goal")
+        {
+            Debug.Log("player is on goal");
+            levelFinishedScreen.SetActive(true);
+            DisplayLevelFinish();
+        }
+    }
+    void DisplayLevelFinish()
+    {
+        finalScoreText.text = "Score: " + playerScore.ToString();
+        finalLivesText.text = "Health: " + currentPlayerHealth.ToString() + "/" + maxPlayerHealth.ToString();
+        finalTimeText.text = "Time: " + Clock();
+    }
     public void AddCoin()
     {
         playerScore += scorePerCoin;
