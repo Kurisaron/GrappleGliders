@@ -12,6 +12,7 @@ public class PlayerData : MonoBehaviour
     public float maxPlayerHealth = 5;
     public float playerInvincibilityCooldown = 5;
     public bool playerInvincible = false;
+    public int scorePerCoin = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -73,5 +74,10 @@ public class PlayerData : MonoBehaviour
             if (Input.GetKey(kcode))
                 buttonPressedText.text = "Button Right Now: " + kcode;
         }*/
+    }
+
+    public void AddCoin()
+    {
+        playerScore += scorePerCoin;
     }
 }
