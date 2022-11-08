@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyBehavior : MonoBehaviour
 {
     [SerializeField] private GameObject enemyObject;
-    [SerializeField] private float enemySpeed, enemyRange;
+    [SerializeField] private float enemySpeed, enemyRange1, enemyRange2;
     [SerializeField] private BoxCollider FieldOfView, enemyHitBox;
     [SerializeField] private Rigidbody playerRigidbody;
     public PlayerData playerData;
@@ -17,7 +17,8 @@ public class EnemyBehavior : MonoBehaviour
     void Awake()
     {
         enemySpeed = 3;
-        enemyRange = 10;
+        enemyRange1 = transform.position.x + 5;
+        enemyRange2 = transform.position.x - 5;
     }
 
     // Update is called once per frame
@@ -44,13 +45,15 @@ public class EnemyBehavior : MonoBehaviour
     public void EnemyRangeMove() // the range the enemy moves in while not detecting the player
     {
         transform.position += move * enemySpeed * Time.deltaTime;
-        if (-enemyRange >= transform.position.x)
+        if (enemyRange2 >= transform.position.x)
         {
+            //Debug.Log(enemyRange);
             transform.Rotate(0, 180, 0);
             move.x *= -1;
         }
-        if (enemyRange <= transform.position.x)
+        if (enemyRange1 <= transform.position.x)
         {
+            //Debug.Log(enemyRange);
             transform.Rotate(0, 180, 0);
             move.x *= -1;
         }

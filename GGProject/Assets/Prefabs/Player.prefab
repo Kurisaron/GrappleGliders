@@ -287,12 +287,17 @@ MonoBehaviour:
   healthText: {fileID: 0}
   clockText: {fileID: 0}
   buttonPressedText: {fileID: 0}
+  finalScoreText: {fileID: 0}
+  finalLivesText: {fileID: 0}
+  finalTimeText: {fileID: 0}
   player: {fileID: 0}
+  levelFinishedScreen: {fileID: 0}
   playerScore: 0
   currentPlayerHealth: 5
   maxPlayerHealth: 5
   playerInvincibilityCooldown: 5
   playerInvincible: 0
+  scorePerCoin: 1
 --- !u!1 &3732170497985312900
 GameObject:
   m_ObjectHideFlags: 0
