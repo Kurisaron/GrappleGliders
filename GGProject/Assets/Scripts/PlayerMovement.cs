@@ -11,8 +11,11 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     public float rotateSpeed;
     public float jumpHeight = 7f;
+    public int currentJumps = 3;
+    public int maxJumps = 3;
     public float glideSpeed = 0.1f;
     public GameObject glider;
+    private bool gliderActive;
     public GameObject testBullet;
 
     private bool grappleActive = false;
@@ -26,13 +29,17 @@ public class PlayerMovement : MonoBehaviour
     private Color grappleInactiveColor = Color.red;
     private Color grappleActiveColor = Color.blue;
 
+
     private void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+        playerRigidbody.drag = 0.0f;
+        playerRigidbody.mass = 1.0f;
+
         playerInputs = new PlayerControl();
         playerInputs.Enable();
+
         reticle.color = grappleInactiveColor;
-        //playerRigidbody.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationZ;
     }
     private void Update()
     {
@@ -49,63 +56,79 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotateSpeed * Time.deltaTime);
         }
 
+        // Check if currentJumps needs to be reset
+        JumpResetCheck();
+
         // Check if grappling state needs to be changed
         GrappleCheck();
+
+        // Check if gliding state needs to be changed
+        GliderCheck();
     }
 
     public void Jump(InputAction.CallbackContext context) // makes character jump
     {
         if (context.performed)
         {
-            playerRigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+            if (currentJumps > 0)
+            {
+                --currentJumps;
 
+                playerRigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+            }
+            
         }
         Debug.Log("Jumped" + context.phase);
     }
 
-    IEnumerator GliderAction() // the commentaed out things are what i tried to use to do gliding :(
+    public void JumpResetCheck()
     {
-        float forwardSpeed;
-        float liftFactor = 2f;
-        float dragValue = 0.05f;
-        float liftValue = 0f;
+        RaycastHit hit;
 
-
-        Vector3 currentVelocity = Vector3.zero;
-        for (;;)
+        if (Physics.Raycast(transform.position + (Vector3.down * 0.1f), Vector3.down, out hit))
         {
-            /*playerRigidbody.constraints = RigidbodyConstraints.None;
-            forwardSpeed = transform.InverseTransformDirection(currentVelocity).z;
-            currentVelocity += Physics.gravity * Time.deltaTime; //weight
-            liftValue = Vector3.Dot(transform.forward, currentVelocity.normalized) * liftFactor * forwardSpeed; //lift
-            currentVelocity = Vector3.Lerp(currentVelocity, transform.forward * forwardSpeed, liftValue * Time.deltaTime); // thrust
-            currentVelocity *= dragValue * Time.deltaTime; //drag*/
-            transform.Translate(Vector3.up * glideSpeed * Time.deltaTime); // super basic glide
-            //Physics.gravity = new Vector3(0, -5f, 0);
-            yield return null;
+            if (hit.distance <= 1.0f)
+            {
+                currentJumps = maxJumps;
+            }
         }
-
     }
 
-    public void GliderToggle(InputAction.CallbackContext context) // changes color of glider when active and changes it back when not active
+    public void GliderCheck()
     {
-        var gliderRenderer = glider.GetComponent<MeshRenderer>();
-        var glideCoroutine = GliderAction();
-        if (context.performed)
+        if (Input.GetMouseButtonDown(1))
         {
-            glider.GetComponent<MeshRenderer>().material.color = Color.red;
-            //player.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self); // rotates the character to make it look like they're gliding
-            StartCoroutine(glideCoroutine);
+            GliderToggle(true);
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            GliderToggle(false);
+        }
+    }
+
+    public void GliderToggle(bool state) 
+    {
+        // changes color of glider when active and changes it back when not active
+        if (gliderActive != state)
+        {
+            gliderActive = state;
             
+            if (state)
+            {
+                glider.GetComponent<MeshRenderer>().material.color = Color.red;
+                playerRigidbody.drag = 2.5f;
+                playerRigidbody.mass = 0.5f;
+
+            }
+            if (!state)
+            {
+                glider.GetComponent<MeshRenderer>().material.color = Color.gray;
+                playerRigidbody.drag = 0.0f;
+                playerRigidbody.mass = 1.0f;
+            }
         }
-        if (context.canceled)
-        {
-            glider.GetComponent<MeshRenderer>().material.color = Color.gray;
-            //player.transform.Rotate(-90.0f, 0.0f, 0.0f, Space.Self);
-            StopAllCoroutines(); // stopping the coroutine didn't work so this is the failsafe :/
-            // StopCoroutine(glideCoroutine);
-        }
-        Debug.Log("Color Change: " + context.phase);
+
+        Debug.Log("Color Change: " + state);
     }
 
     private void GrappleCheck()

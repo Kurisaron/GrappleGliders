@@ -46,15 +46,6 @@ public partial class @PlayerControl : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Glider Toggle"",
-                    ""type"": ""Button"",
-                    ""id"": ""2dfd6dd0-7dd9-4847-8957-94a62e76c7e4"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Rotate"",
                     ""type"": ""PassThrough"",
                     ""id"": ""ce3a2a1a-96ae-40ef-b12b-944b8de7770c"",
@@ -132,17 +123,6 @@ public partial class @PlayerControl : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""392c05ef-46da-4316-823b-77d2bdef065d"",
-                    ""path"": ""<Keyboard>/c"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Glider Toggle"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""Left or Right"",
                     ""id"": ""ed5be0fa-284a-48dc-8a28-82e5f402e7b1"",
                     ""path"": ""1DAxis"",
@@ -184,7 +164,6 @@ public partial class @PlayerControl : IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump ", throwIfNotFound: true);
-        m_Player_GliderToggle = m_Player.FindAction("Glider Toggle", throwIfNotFound: true);
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
     }
 
@@ -247,7 +226,6 @@ public partial class @PlayerControl : IInputActionCollection2, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_GliderToggle;
     private readonly InputAction m_Player_Rotate;
     public struct PlayerActions
     {
@@ -255,7 +233,6 @@ public partial class @PlayerControl : IInputActionCollection2, IDisposable
         public PlayerActions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @GliderToggle => m_Wrapper.m_Player_GliderToggle;
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -272,9 +249,6 @@ public partial class @PlayerControl : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @GliderToggle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGliderToggle;
-                @GliderToggle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGliderToggle;
-                @GliderToggle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGliderToggle;
                 @Rotate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                 @Rotate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                 @Rotate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
@@ -288,9 +262,6 @@ public partial class @PlayerControl : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @GliderToggle.started += instance.OnGliderToggle;
-                @GliderToggle.performed += instance.OnGliderToggle;
-                @GliderToggle.canceled += instance.OnGliderToggle;
                 @Rotate.started += instance.OnRotate;
                 @Rotate.performed += instance.OnRotate;
                 @Rotate.canceled += instance.OnRotate;
@@ -302,7 +273,6 @@ public partial class @PlayerControl : IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnGliderToggle(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
     }
 }

@@ -24,15 +24,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Glider Toggle",
-                    "type": "Button",
-                    "id": "2dfd6dd0-7dd9-4847-8957-94a62e76c7e4",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Rotate",
                     "type": "PassThrough",
                     "id": "ce3a2a1a-96ae-40ef-b12b-944b8de7770c",
@@ -106,17 +97,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump ",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "392c05ef-46da-4316-823b-77d2bdef065d",
-                    "path": "<Keyboard>/c",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Glider Toggle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

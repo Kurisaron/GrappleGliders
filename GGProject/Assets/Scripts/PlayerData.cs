@@ -9,11 +9,17 @@ public class PlayerData : MonoBehaviour
     public Text finalScoreText, finalLivesText, finalTimeText;
     [SerializeField] private GameObject player, levelFinishedScreen;
     public int playerScore = 0;
-    public float currentPlayerHealth = 5;
-    public float maxPlayerHealth = 5;
+    public int scorePerCoin = 1;
+
+    public int currentPlayerHealth = 5;
+    public int maxPlayerHealth = 5;
+    public int currentLives = 3;
+    public int maxLives = 3;
+
     public float playerInvincibilityCooldown = 5;
     public bool playerInvincible = false;
-    public int scorePerCoin = 1;
+
+    public GameObject restartPoint;
 
     // Start is called before the first frame update
     void Start()
@@ -31,9 +37,24 @@ public class PlayerData : MonoBehaviour
         clockText.text = Clock();
         PrintButtonPressed();
     }
+
+    public void Attacked()
+    {
+        if (playerInvincible == false)
+        {
+            StartCoroutine(AttackingTime(playerInvincibilityCooldown));
+        }
+    }
+
     IEnumerator AttackingTime(float playerInvincibilityCooldown) // this controls the player taking damage
     {
         currentPlayerHealth--;
+
+        if (currentPlayerHealth <= 0)
+        {
+            RestartLevel();
+        }
+
         for (float t = 0; t < playerInvincibilityCooldown; t += Time.deltaTime)
         {
             playerInvincible = true;
@@ -43,13 +64,25 @@ public class PlayerData : MonoBehaviour
         playerInvincible = false;
         player.GetComponent<MeshRenderer>().material.color = Color.gray;
     }
-    public void Attacked()
+
+    public void RestartLevel()
     {
-        if(playerInvincible == false)
+        currentPlayerHealth = maxPlayerHealth;
+
+        transform.position = restartPoint.transform.position;
+        transform.rotation = restartPoint.transform.rotation;
+
+        if (currentLives > 0)
         {
-            StartCoroutine(AttackingTime(playerInvincibilityCooldown));
+            --currentLives;
+        }
+        else
+        {
+            levelFinishedScreen.SetActive(true);
+            DisplayLevelFinish();
         }
     }
+
     string Clock()
     {
         float timer = Time.time;
@@ -58,6 +91,7 @@ public class PlayerData : MonoBehaviour
         string niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
         return niceTime;
     }
+
     void PrintButtonPressed() // prints buttons pressed on the keyboard, space doesn't work
     {
         if (Input.anyKeyDown)
@@ -76,6 +110,7 @@ public class PlayerData : MonoBehaviour
                 buttonPressedText.text = "Button Right Now: " + kcode;
         }*/
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Goal")
@@ -84,13 +119,21 @@ public class PlayerData : MonoBehaviour
             levelFinishedScreen.SetActive(true);
             DisplayLevelFinish();
         }
+
+        if (other.gameObject.tag == "DeathFloor")
+        {
+            Debug.Log("Player has hit death floor");
+            RestartLevel();
+        }
     }
+
     void DisplayLevelFinish()
     {
         finalScoreText.text = "Score: " + playerScore.ToString();
         finalLivesText.text = "Health: " + currentPlayerHealth.ToString() + "/" + maxPlayerHealth.ToString();
         finalTimeText.text = "Time: " + Clock();
     }
+
     public void AddCoin()
     {
         playerScore += scorePerCoin;
