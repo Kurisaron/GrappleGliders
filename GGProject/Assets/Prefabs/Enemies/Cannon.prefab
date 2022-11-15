@@ -109,7 +109,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 10, z: 10}
+  m_Size: {x: 17, y: 17, z: 15}
   m_Center: {x: 0.00000005960464, y: -6, z: -0.00000008940697}
 --- !u!114 &6025359985320641048
 MonoBehaviour:
@@ -124,8 +124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyObject: {fileID: 428260578250530784}
-  enemySpeed: 0
-  bulletLife: 0
+  enemySpeed: 5
+  bulletLife: 5
   FieldOfView: {fileID: 2887334669659473936}
   playerDetected: 0
   enemyBullet: {fileID: 3129018422336775657, guid: f0f3c5e66ae57244d87a8c398f35056d, type: 3}
