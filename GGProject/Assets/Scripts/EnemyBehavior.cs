@@ -16,6 +16,22 @@ public class EnemyBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        GameObject[] playerObjs = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject playerObj in playerObjs)
+        {
+            if (playerObj.GetComponent<PlayerData>() != null)
+            {
+                playerData = playerObj.GetComponent<PlayerData>();
+                playerRigidbody = playerObj.GetComponent<Rigidbody>();
+                player = playerObj.transform;
+            }
+        }
+
+        if (playerData == null)
+        {
+            Debug.Log("Player data could not be found to store in enemy.");
+        }
+
         enemySpeed = 3;
         enemyRange1 = transform.position.x + 5;
         enemyRange2 = transform.position.x - 5;
@@ -76,7 +92,7 @@ public class EnemyBehavior : MonoBehaviour
         {
             Debug.Log("player hit");
             playerData.Attacked();
-            playerRigidbody.AddForce((player.transform.position - this.transform.position).normalized * 6, ForceMode.Impulse);
+            playerRigidbody.AddForce((player.position - this.transform.position).normalized * 6, ForceMode.Impulse);
 
         }
     }

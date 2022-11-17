@@ -3,21 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody playerRigidbody;
     private PlayerControl playerInputs;
+    private Scene currentScene;
+
     public float speed;
     public float rotateSpeed;
+
     public float jumpHeight = 7f;
     public int currentJumps = 3;
     public int maxJumps = 3;
+
+    public bool glideEnabled;
     public float glideSpeed = 0.1f;
     public GameObject glider;
     private bool gliderActive;
     public GameObject testBullet;
 
+    public bool grappleEnabled;
     private bool grappleActive = false;
     private SpringJoint grappleJoint;
     private Vector3 grapplePoint;
@@ -32,6 +39,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "TutorialLevel")
+        {
+            glideEnabled = false;
+            grappleEnabled = false;
+        }
+        else
+        {
+            glideEnabled = true;
+            grappleEnabled = true;
+        }
+        
         playerRigidbody = GetComponent<Rigidbody>();
         playerRigidbody.drag = 0.0f;
         playerRigidbody.mass = 1.0f;
@@ -60,10 +79,17 @@ public class PlayerMovement : MonoBehaviour
         JumpResetCheck();
 
         // Check if grappling state needs to be changed
-        GrappleCheck();
-
+        if (grappleEnabled)
+        {
+            GrappleCheck();
+        }
+        
         // Check if gliding state needs to be changed
-        GliderCheck();
+        if (glideEnabled)
+        {
+            GliderCheck();
+        }
+        
     }
 
     public void Jump(InputAction.CallbackContext context) // makes character jump
