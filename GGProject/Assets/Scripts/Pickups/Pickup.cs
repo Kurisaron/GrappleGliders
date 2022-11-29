@@ -7,17 +7,10 @@ public class Pickup : MonoBehaviour
     public PlayerData playerData;
     public PlayerMovement playerMovement;
 
-    public void Awake()
+    public void Start()
     {
-        GameObject[] playerObjs = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject playerObj in playerObjs)
-        {
-            if (playerObj.GetComponent<PlayerData>() != null)
-            {
-                playerData = playerObj.GetComponent<PlayerData>();
-                playerMovement = playerObj.GetComponent<PlayerMovement>();
-            }
-        }
+        playerData = PlayerData.local;
+        playerMovement = playerData.gameObject.GetComponent<PlayerMovement>();
     }
 
     protected void OnTriggerEnter(Collider other)

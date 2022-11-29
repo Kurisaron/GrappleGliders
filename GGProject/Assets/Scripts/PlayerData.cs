@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerData : MonoBehaviour
 {
-    [SerializeField] private Text scoreText, healthText, clockText, buttonPressedText;
-    public Text finalScoreText, finalLivesText, finalTimeText;
-    [SerializeField] private GameObject player, levelFinishedScreen;
+    public static PlayerData local;
+    
+    [SerializeField] private GameObject player;
     public int playerScore = 0;
     public int scorePerCoin = 1;
 
@@ -22,20 +22,15 @@ public class PlayerData : MonoBehaviour
     public GameObject restartPoint;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
-
+        PlayerData.local = this;
     }
 
     // Update is called once per frame
     void Update()
     {
-        scoreText.text = "Score: " + playerScore.ToString();
-        healthText.text = "Health: " + currentPlayerHealth.ToString() + "/" + maxPlayerHealth.ToString();
-
-        clockText.text = Clock();
-        PrintButtonPressed();
+        PlayerUIManager.local.UpdateMainUI(playerScore, currentPlayerHealth, maxPlayerHealth, currentLives, Clock());
     }
 
     public void Attacked()
@@ -78,12 +73,11 @@ public class PlayerData : MonoBehaviour
         }
         else
         {
-            levelFinishedScreen.SetActive(true);
-            DisplayLevelFinish();
+            PlayerUIManager.local.LevelLost(playerScore, currentLives, Clock());
         }
     }
 
-    string Clock()
+    public string Clock()
     {
         float timer = Time.time;
         int minutes = Mathf.FloorToInt(timer / 60F);
@@ -92,32 +86,13 @@ public class PlayerData : MonoBehaviour
         return niceTime;
     }
 
-    void PrintButtonPressed() // prints buttons pressed on the keyboard, space doesn't work
-    {
-        if (Input.anyKeyDown)
-        {
-            //print(Input.inputString);
-            buttonPressedText.text = "Button Right Now: " + Input.inputString;
-
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            buttonPressedText.text = "Button Right Now: " + KeyCode.Space;
-        }
-        /*foreach (KeyCode kcode in System.Enum.GetValues(typeof(KeyCode)))
-        {
-            if (Input.GetKey(kcode))
-                buttonPressedText.text = "Button Right Now: " + kcode;
-        }*/
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Goal")
         {
             Debug.Log("player is on goal");
-            levelFinishedScreen.SetActive(true);
-            DisplayLevelFinish();
+            PlayerUIManager.local.LevelWon(playerScore, currentLives, Clock());
         }
 
         if (other.gameObject.tag == "DeathFloor")
@@ -127,12 +102,7 @@ public class PlayerData : MonoBehaviour
         }
     }
 
-    void DisplayLevelFinish()
-    {
-        finalScoreText.text = "Score: " + playerScore.ToString();
-        finalLivesText.text = "Health: " + currentPlayerHealth.ToString() + "/" + maxPlayerHealth.ToString();
-        finalTimeText.text = "Time: " + Clock();
-    }
+    
 
     public void AddCoin()
     {

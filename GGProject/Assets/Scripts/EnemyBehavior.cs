@@ -14,19 +14,12 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private bool playerDetected = false;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        GameObject[] playerObjs = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject playerObj in playerObjs)
-        {
-            if (playerObj.GetComponent<PlayerData>() != null)
-            {
-                playerData = playerObj.GetComponent<PlayerData>();
-                playerRigidbody = playerObj.GetComponent<Rigidbody>();
-                player = playerObj.transform;
-            }
-        }
-
+        playerData = PlayerData.local;
+        playerRigidbody = playerData.gameObject.GetComponent<Rigidbody>();
+        player = playerData.gameObject.transform;
+        
         if (playerData == null)
         {
             Debug.Log("Player data could not be found to store in enemy.");

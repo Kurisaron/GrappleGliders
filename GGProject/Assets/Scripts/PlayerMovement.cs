@@ -26,11 +26,13 @@ public class PlayerMovement : MonoBehaviour
 
     public bool grappleEnabled;
     private bool grappleActive = false;
+    private bool grapplingEnemy = false;
+    private GameObject grappledEnemy = new GameObject();
     private SpringJoint grappleJoint;
     private Vector3 grapplePoint;
     public Transform cameraTransform, player;
     public float minGrappleDistance = 0.2f;
-    public float maxGrappleDistance = 100f;
+    public float maxGrappleDistance = 200f;
     private LineRenderer lineRenderer;
     public Image reticle;
     private Color grappleInactiveColor = Color.red;
@@ -82,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
         if (grappleEnabled)
         {
             GrappleCheck();
+
         }
         
         // Check if gliding state needs to be changed
@@ -169,8 +172,15 @@ public class PlayerMovement : MonoBehaviour
                 {
                     grappleActive = true;
 
-                    grapplePoint = hit.point;
-
+                    if (grapplingEnemy && grappledEnemy != null)
+                    {
+                        grapplePoint = grappledEnemy.transform.position;
+                    }
+                    else
+                    {
+                        grapplePoint = hit.point;
+                    }
+                    
                     grappleJoint = player.gameObject.AddComponent<SpringJoint>();
                     grappleJoint.autoConfigureConnectedAnchor = false;
                     grappleJoint.connectedAnchor = grapplePoint;
@@ -206,6 +216,15 @@ public class PlayerMovement : MonoBehaviour
             grappleActive = false;
             Debug.Log("Grapple has been deactivated.");
 
+            if (grapplingEnemy)
+            {
+                grapplingEnemy = false;
+
+                Destroy(grappledEnemy);
+
+                grappledEnemy = null;
+            }
+
             if (grappleJoint != null)
             {
                 Destroy(grappleJoint);
@@ -222,6 +241,13 @@ public class PlayerMovement : MonoBehaviour
         if (grappleActive)
         {
             lineRenderer.SetPosition(0, transform.position);
+
+            if (grapplingEnemy && grappledEnemy != null)
+            {
+                grappleJoint.connectedAnchor = grappledEnemy.transform.position;
+
+                lineRenderer.SetPosition(1, grappleJoint.connectedAnchor);
+            }
         }
     }
 
@@ -233,6 +259,10 @@ public class PlayerMovement : MonoBehaviour
             case "Player":
                 return false;
             case "Obstacle":
+                return true;
+            case "Enemy":
+                grapplingEnemy = true;
+                grappledEnemy = target;
                 return true;
             default:
                 return true;
