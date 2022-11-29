@@ -7,10 +7,10 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private GameObject enemyObject;
     [SerializeField] private float enemySpeed, enemyRange1, enemyRange2;
     [SerializeField] private BoxCollider FieldOfView, enemyHitBox;
-    [SerializeField] private Rigidbody playerRigidbody;
+    [SerializeField] private Rigidbody enemyRigidbody, playerRigidbody;
     public PlayerData playerData;
     public Transform player;
-    private Vector3 move = new Vector3(1, 0, 0);
+    private bool canRandomMove;
     [SerializeField] private bool playerDetected = false;
 
     // Start is called before the first frame update
@@ -25,7 +25,9 @@ public class EnemyBehavior : MonoBehaviour
             Debug.Log("Player data could not be found to store in enemy.");
         }
 
-        enemySpeed = 3;
+        canRandomMove = true;
+        enemyRigidbody = GetComponent<Rigidbody>();
+        enemySpeed = 100;
         enemyRange1 = transform.position.x + 5;
         enemyRange2 = transform.position.x - 5;
     }
@@ -48,29 +50,45 @@ public class EnemyBehavior : MonoBehaviour
         }
         else
         {
-            EnemyRangeMove();
+            playerDetected = false;
+            if (canRandomMove)
+            {
+                StartCoroutine(EnemyRandomMove());
+            }
         }
     }
-    public void EnemyRangeMove() // the range the enemy moves in while not detecting the player
+
+    
+
+    public IEnumerator EnemyRandomMove() // the range the enemy moves in while not detecting the player
     {
-        transform.position += move * enemySpeed * Time.deltaTime;
-        if (enemyRange2 >= transform.position.x)
+        canRandomMove = false;
+        float randomMoveInterval = 2.0f;
+        float forceInterval = randomMoveInterval / 10.0f;
+
+        Vector3 moveDirection = new Vector3(Random.Range(-1.0f, 1.0f), 0, Random.Range(-1.0f, 1.0f));
+
+        for (float currentIntervalTime = randomMoveInterval; currentIntervalTime > 0; currentIntervalTime -= forceInterval)
         {
-            //Debug.Log(enemyRange);
-            transform.Rotate(0, 180, 0);
-            move.x *= -1;
+            enemyRigidbody.AddForce(moveDirection.normalized * (enemySpeed / 4) * forceInterval);
+
+            if (playerDetected)
+            {
+                currentIntervalTime = 0;
+            }
+
+            yield return new WaitForSeconds(forceInterval);
         }
-        if (enemyRange1 <= transform.position.x)
-        {
-            //Debug.Log(enemyRange);
-            transform.Rotate(0, 180, 0);
-            move.x *= -1;
-        }
+
+        canRandomMove = true;
     }
+
     public void EnemyAction() // enemy homing movement
     {
+        playerDetected = true;
         transform.LookAt(player);
-        transform.position += transform.forward * enemySpeed * Time.deltaTime;
+        Vector3 moveDirection = new Vector3(transform.forward.x, 0, transform.forward.z);
+        enemyRigidbody.AddForce(moveDirection.normalized * enemySpeed * Time.deltaTime);
         //Debug.Log("player detected");
         float distance = Vector3.Distance(player.transform.position, this.transform.position);
         /*if(distance > FieldOfView.size.z)
