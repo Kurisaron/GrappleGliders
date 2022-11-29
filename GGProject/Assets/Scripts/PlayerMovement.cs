@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public bool grappleEnabled;
     private bool grappleActive = false;
     private bool grapplingEnemy = false;
-    private GameObject grappledEnemy = new GameObject();
+    private GameObject grappledEnemy;
     private SpringJoint grappleJoint;
     private Vector3 grapplePoint;
     public Transform cameraTransform, player;
