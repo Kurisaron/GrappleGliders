@@ -5,66 +5,59 @@ using UnityEngine;
 public class CannonBehavior : MonoBehaviour
 {
     [SerializeField] private GameObject enemyObject;
-    [SerializeField] private float enemySpeed, bulletLife;
-    [SerializeField] private BoxCollider FieldOfView;
+    private float enemySpeed, bulletLife, playerRadius, shootInterval;
     [SerializeField] private bool playerDetected = false;
-    [SerializeField] private Rigidbody enemyBullet;
-    public Transform player;
-    public PlayerData playerData;
+    [SerializeField] private GameObject enemyBullet;
+    private GameObject player;
+    private PlayerData playerData;
 
     // Start is called before the first frame update
     void Start()
     {
+        playerData = PlayerData.local;
+        player = playerData.gameObject;
+        
         enemySpeed = 10; // i think it has to be this quick :|
         bulletLife = 2;
+        playerRadius = 30;
+        shootInterval = 1;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        /*if(playerDetected == true)
+        if (Vector3.Distance(gameObject.transform.position, player.transform.position) <= playerRadius)
         {
-            StartCoroutine(EnemyShoot());
+            if (!playerDetected)
+            {
+                playerDetected = true;
+                StartCoroutine(EnemyShoot());
+            }
+            
+            
         }
         else
         {
-            StopCoroutine(EnemyShoot());
-        }*/
+            if (playerDetected)
+            {
+                playerDetected = false;
+            }
+
+        }
     }
-    IEnumerator EnemyShoot() //shoots the bullet
+
+    private IEnumerator EnemyShoot() //shoots the bullet
     {
-        Rigidbody bullet;
+        GameObject bullet;
         //Quaternion bulletRotation = new Quaternion(0, 90, 0, 0);
-        while(true)
+        while(playerDetected)
         {
             bullet = Instantiate(enemyBullet, enemyObject.transform.position, transform.rotation);
-            bullet.GetComponent<Bullet>().playerData = playerData;
-            bullet.transform.LookAt(player);
-            //bullet.transform.position += transform.forward * enemySpeed * Time.deltaTime;
-            bullet.AddForce(bullet.transform.forward * enemySpeed, ForceMode.Impulse);
-            Destroy(bullet.gameObject, bulletLife);
-            yield return new WaitForSeconds(bulletLife);
+            bullet.GetComponent<Bullet>().Init(playerData, bulletLife);
+            bullet.transform.LookAt(player.transform);
+            bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * enemySpeed, ForceMode.Impulse);
 
-        }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            //playerDetected = true;
-            //FieldOfView.enabled = false;
-            StartCoroutine(EnemyShoot());
+            yield return new WaitForSeconds(shootInterval);
 
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            //playerDetected = true;
-            //FieldOfView.enabled = false;
-            Debug.Log("player out of view");
-            StopAllCoroutines(); // stop coroutine didn't work so failsafe again
         }
     }
 }

@@ -66,6 +66,7 @@ public class PlayerData : MonoBehaviour
 
         transform.position = restartPoint.transform.position;
         transform.rotation = restartPoint.transform.rotation;
+        GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
 
         if (currentLives > 0)
         {

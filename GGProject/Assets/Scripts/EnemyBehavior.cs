@@ -35,7 +35,7 @@ public class EnemyBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float moveRadius = 5f;
+        float moveRadius = 10.0f;
         /*if (playerDetected == false)
         {
             EnemyRangeMove();
@@ -62,7 +62,9 @@ public class EnemyBehavior : MonoBehaviour
 
     public IEnumerator EnemyRandomMove() // the range the enemy moves in while not detecting the player
     {
+        enemyRigidbody.velocity = new Vector3(0, 0, 0);
         canRandomMove = false;
+
         float randomMoveInterval = 2.0f;
         float forceInterval = randomMoveInterval / 10.0f;
 
@@ -70,16 +72,18 @@ public class EnemyBehavior : MonoBehaviour
 
         for (float currentIntervalTime = randomMoveInterval; currentIntervalTime > 0; currentIntervalTime -= forceInterval)
         {
-            enemyRigidbody.AddForce(moveDirection.normalized * (enemySpeed / 4) * forceInterval);
+            enemyRigidbody.AddForce(moveDirection.normalized * enemySpeed * forceInterval);
 
             if (playerDetected)
             {
                 currentIntervalTime = 0;
+                
             }
 
             yield return new WaitForSeconds(forceInterval);
         }
 
+        enemyRigidbody.velocity = new Vector3(0, 0, 0);
         canRandomMove = true;
     }
 

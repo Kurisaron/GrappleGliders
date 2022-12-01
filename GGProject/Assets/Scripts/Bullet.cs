@@ -5,18 +5,31 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     //public GameObject player;
-    public PlayerData playerData;
-    // Start is called before the first frame update
-    void Start()
+    private PlayerData playerData;
+    private float lifetime, age;
+
+    
+    public void Init(PlayerData pD, float life)
     {
-        //playerData = player.GetComponentInChildren<PlayerData>();
+        playerData = pD;
+        lifetime = life;
+        age = 0.0f;
+
+        Debug.Log("Bullet spawned");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (age >= lifetime)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            age += Time.deltaTime;
+        }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
