@@ -11,8 +11,10 @@ public class PlayerMovement : MonoBehaviour
     private PlayerControl playerInputs;
     private Scene currentScene;
 
+    private PlayerUIManager playerUIManager;
+
     public float speed;
-    public float rotateSpeed;
+    private float rotateSpeed = 1500f;
 
     public float jumpHeight = 7f;
     public int currentJumps = 3;
@@ -37,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     public Image reticle;
     private Color grappleInactiveColor = Color.red;
     private Color grappleActiveColor = Color.blue;
+    private Color cantGrappleColor = Color.grey;
 
 
     private void Awake()
@@ -62,6 +65,13 @@ public class PlayerMovement : MonoBehaviour
 
         reticle.color = grappleInactiveColor;
     }
+
+    // Start is used to make sure that any accessed singletons have been set during Awake
+    private void Start()
+    {
+        playerUIManager = PlayerUIManager.local;
+    }
+
     private void Update()
     {
         Vector2 moveVector = playerInputs.Player.Movement.ReadValue<Vector2>();
@@ -92,7 +102,8 @@ public class PlayerMovement : MonoBehaviour
         {
             GliderCheck();
         }
-        
+
+        PauseCheck();
     }
 
     public void Jump(InputAction.CallbackContext context) // makes character jump
@@ -234,8 +245,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 Destroy(lineRenderer.gameObject);
             }
-
-            reticle.color = grappleInactiveColor;
         }
 
         if (grappleActive)
@@ -247,6 +256,26 @@ public class PlayerMovement : MonoBehaviour
                 grappleJoint.connectedAnchor = grappledEnemy.transform.position;
 
                 lineRenderer.SetPosition(1, grappleJoint.connectedAnchor);
+            }
+        }
+        else
+        {
+            RaycastHit hit;
+            
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, maxGrappleDistance))
+            {
+                if (GrappleTargetCheck(hit.transform.gameObject))
+                {
+                    reticle.color = grappleInactiveColor;
+                }
+                else
+                {
+                    reticle.color = cantGrappleColor;
+                }
+            }
+            else
+            {
+                reticle.color = cantGrappleColor;
             }
         }
     }
@@ -282,15 +311,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /*public void TestShooter(InputAction.CallbackContext context)
+    private void PauseCheck()
     {
-        var clone = testBullet.GetComponent<Rigidbody>();
-        testBullet.transform.position += 5;
-        if (context.performed)
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            Instantiate(testBullet, transform.position, transform.rotation);
-            //testBullet.transform.position += transform.TransformDirection(Vector3.forward * 100);
-            clone.velocity = transform.TransformDirection(Vector3.forward * 100);
+            playerUIManager.TogglePauseState();
         }
-    }*/
+    }
 }

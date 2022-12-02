@@ -72,6 +72,7 @@ public class EnemyBehavior : MonoBehaviour
 
         for (float currentIntervalTime = randomMoveInterval; currentIntervalTime > 0; currentIntervalTime -= forceInterval)
         {
+            transform.forward = moveDirection.normalized;
             enemyRigidbody.AddForce(moveDirection.normalized * enemySpeed * forceInterval);
 
             if (playerDetected)

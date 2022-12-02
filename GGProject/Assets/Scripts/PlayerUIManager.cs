@@ -4,20 +4,39 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+public enum TutorialInfo
+{
+    NA,
+    BasicMovement,
+    Grapple,
+    Glide
+}
+
 public class PlayerUIManager : MonoBehaviour
 {
     public static PlayerUIManager local;
 
     public Text scoreText, healthText, livesText, clockText, buttonPressedText;
+
     public GameObject levelFinishedScreen;
     public Text finalScoreText, finalLivesText, finalTimeText;
     public Text levelTransitionText;
     private int levelTransitionSeconds = 10;
 
+    public GameObject tutorialUISet;
+    public Text tutorialTitle;
+    public Text tutorialDescription;
+
+    private bool gamePaused;
+    public GameObject pauseMenu;
+
     public void Awake()
     {
         PlayerUIManager.local = this;
         levelFinishedScreen.SetActive(false);
+        tutorialUISet.SetActive(false);
+        gamePaused = false;
+        pauseMenu.SetActive(false);
     }
 
     public void UpdateMainUI(int score, int currentHealth, int maxHealth, int lives, string clock)
@@ -118,6 +137,46 @@ public class PlayerUIManager : MonoBehaviour
             default:
                 Debug.Log("Given transition type did not match existing types");
                 break;
+        }
+    }
+
+    public void SetTutorialInfo(bool active, TutorialInfo tutorialInfo = TutorialInfo.NA)
+    {
+        tutorialUISet.SetActive(active);
+
+        if (active)
+        {
+            switch (tutorialInfo)
+            {
+                case TutorialInfo.BasicMovement:
+                    tutorialTitle.text = "Basic Movement";
+                    tutorialDescription.text = "Press WASD to move around. Press SPACE to jump. You may jump up to 3 times before landing on the ground again, resetting the count.";
+                    break;
+                case TutorialInfo.Grapple:
+                    tutorialTitle.text = "Grapple Gun";
+                    tutorialDescription.text = "Aim the reticle and hold the LEFT MOUSE BUTTON to grapple to objects. Releasing your grapple on an enemy will un-alive them.";
+                    break;
+                case TutorialInfo.Glide:
+                    tutorialTitle.text = "Glider Satchel";
+                    tutorialDescription.text = "Hold the RIGHT MOUSE BUTTON to glide, slowing your fall. This glider also acts an air brake by helping to decrease momentum.";
+                    break;
+            }
+        }
+    }
+
+    public void TogglePauseState()
+    {
+        gamePaused = !gamePaused;
+
+        pauseMenu.SetActive(gamePaused);
+
+        if (gamePaused)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
         }
     }
 }
