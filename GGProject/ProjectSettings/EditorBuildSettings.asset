@@ -5,10 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/Workshops/AnnaWorkshop.unity
-    guid: d38dcca39dbb50249a7751ba1be25eae
+    path: Assets/Scenes/Levels/StartMenu.unity
+    guid: 4229c656d2463ec4e95f19ea5f6556c3
+  - enabled: 1
+    path: Assets/Scenes/Levels/TutorialLevel.unity
+    guid: e57e0794c0a4f9949bc7a302065bb56e
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level1.unity
+    guid: 3121e088f6c577646ad135d4d931b2da
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level2.unity
+    guid: 514ec1bc4120827448b6c686d0e81cb6
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level3.unity
+    guid: c1fd9cfecb5d0b5478d0051ef94dca5b
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level4.unity
+    guid: 9d160d69dd74cb54c96704b7f26850c3
   m_configObjects: {}

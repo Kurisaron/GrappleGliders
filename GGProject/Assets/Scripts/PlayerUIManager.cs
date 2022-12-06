@@ -126,6 +126,12 @@ public class PlayerUIManager : MonoBehaviour
                         SceneManager.LoadScene("Level2");
                         break;
                     case "Level2":
+                        SceneManager.LoadScene("Level3");
+                        break;
+                    case "Level3":
+                        SceneManager.LoadScene("Level4");
+                        break;
+                    case "Level4":
                         SceneManager.LoadScene("StartMenu");
                         break;
                     default:
