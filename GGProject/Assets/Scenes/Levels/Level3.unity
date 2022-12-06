@@ -184,7 +184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: enemySpeed
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: playerRadius
@@ -851,7 +851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: enemySpeed
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: playerRadius
@@ -964,11 +964,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5989234335106301622, guid: 378e52011b639ca43a04f6eda5a49b15, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000034407073
+      value: -0.000000034407073
       objectReference: {fileID: 0}
     - target: {fileID: 5989234335106301622, guid: 378e52011b639ca43a04f6eda5a49b15, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 6.2595074e-10
+      value: -6.2595074e-10
       objectReference: {fileID: 0}
     - target: {fileID: 5989234335356367426, guid: 378e52011b639ca43a04f6eda5a49b15, type: 3}
       propertyPath: m_LocalRotation.w
@@ -980,11 +980,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5989234335356367426, guid: 378e52011b639ca43a04f6eda5a49b15, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000017203536
+      value: -0.000000017203536
       objectReference: {fileID: 0}
     - target: {fileID: 5989234335356367426, guid: 378e52011b639ca43a04f6eda5a49b15, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 3.1297526e-10
+      value: -3.1297526e-10
       objectReference: {fileID: 0}
     - target: {fileID: 5989234335772496332, guid: 378e52011b639ca43a04f6eda5a49b15, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1020,11 +1020,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5989234336044472067, guid: 378e52011b639ca43a04f6eda5a49b15, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000017195026
+      value: -0.000000017195024
       objectReference: {fileID: 0}
     - target: {fileID: 5989234336044472067, guid: 378e52011b639ca43a04f6eda5a49b15, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 6.25021e-10
+      value: -6.250209e-10
       objectReference: {fileID: 0}
     - target: {fileID: 8017446116559808210, guid: 378e52011b639ca43a04f6eda5a49b15, type: 3}
       propertyPath: m_RootOrder
@@ -1845,7 +1845,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: enemySpeed
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: playerRadius
@@ -1983,7 +1983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: enemySpeed
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: playerRadius
@@ -2113,7 +2113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: enemySpeed
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: playerRadius
@@ -2760,7 +2760,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: enemySpeed
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: playerRadius
@@ -3065,7 +3065,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: enemySpeed
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: playerRadius
@@ -3248,7 +3248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: enemySpeed
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: playerRadius
@@ -3716,7 +3716,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: enemySpeed
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: playerRadius
@@ -4420,7 +4420,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: enemySpeed
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6025359985320641048, guid: 77133d06137a9b04295ea4ddb0e95b1c, type: 3}
       propertyPath: playerRadius
