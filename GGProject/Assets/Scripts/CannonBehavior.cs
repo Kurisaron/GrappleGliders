@@ -5,7 +5,7 @@ using UnityEngine;
 public class CannonBehavior : MonoBehaviour
 {
     [SerializeField] private GameObject enemyObject;
-    private float enemySpeed, bulletLife, playerRadius, shootInterval;
+    [SerializeField] private float enemySpeed, bulletLife, playerRadius, shootInterval;
     [SerializeField] private bool playerDetected = false;
     [SerializeField] private GameObject enemyBullet;
     private GameObject player;
@@ -17,10 +17,7 @@ public class CannonBehavior : MonoBehaviour
         playerData = PlayerData.local;
         player = playerData.gameObject;
         
-        enemySpeed = 10; // i think it has to be this quick :|
-        bulletLife = 2;
-        playerRadius = 30;
-        shootInterval = 1;
+        
     }
 
     private void Update()

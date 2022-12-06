@@ -32,12 +32,19 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        switch (other.gameObject.tag)
         {
-            Debug.Log("player hit");
-            playerData.Attacked();
-            Destroy(this.gameObject);
-
+            case "Player":
+                Debug.Log("Player hit");
+                playerData.Attacked();
+                Destroy(this.gameObject);
+                break;
+            case "Enemy":
+                break;
+            default:
+                Debug.Log("Environment hit");
+                Destroy(this.gameObject);
+                break;
         }
     }
 }

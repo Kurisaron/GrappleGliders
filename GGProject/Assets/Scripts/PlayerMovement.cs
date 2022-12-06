@@ -289,6 +289,8 @@ public class PlayerMovement : MonoBehaviour
                 return false;
             case "Obstacle":
                 return true;
+            case "Goal":
+                return false;
             case "Enemy":
                 grapplingEnemy = true;
                 grappledEnemy = target;

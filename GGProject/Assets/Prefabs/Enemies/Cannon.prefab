@@ -110,7 +110,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyObject: {fileID: 428260578250530784}
-  enemySpeed: 5
+  enemySpeed: 10
   bulletLife: 5
+  playerRadius: 30
+  shootInterval: 2
   playerDetected: 0
   enemyBullet: {fileID: 6028620465439842018, guid: f0f3c5e66ae57244d87a8c398f35056d, type: 3}
