@@ -157,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 glider.GetComponent<MeshRenderer>().material.color = Color.red;
                 playerRigidbody.drag = 2.5f;
-                playerRigidbody.mass = 0.5f;
+                playerRigidbody.mass = 0.25f;
 
             }
             if (!state)
@@ -199,11 +199,11 @@ public class PlayerMovement : MonoBehaviour
                     float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
 
                     grappleJoint.maxDistance = distanceFromPoint * 0.5f;
-                    grappleJoint.minDistance = distanceFromPoint * 0.25f;
+                    grappleJoint.minDistance = distanceFromPoint * 0.2f;
 
                     grappleJoint.spring = 100f;
                     grappleJoint.damper = 50f;
-                    grappleJoint.massScale = 4.5f;
+                    grappleJoint.massScale = 5f;
 
                     lineRenderer = new GameObject("Line").AddComponent<LineRenderer>();
                     lineRenderer.startColor = Color.black;
