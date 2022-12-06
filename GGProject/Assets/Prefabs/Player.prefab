@@ -229,15 +229,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  rotateSpeed: 500
   jumpHeight: 7
+  currentJumps: 3
+  maxJumps: 3
+  glideEnabled: 0
   glideSpeed: 2
   glider: {fileID: 3732170497181729785}
   testBullet: {fileID: 1140195763081510753, guid: ee2c45e85314dd0479873b16b0a57ea9, type: 3}
+  grappleEnabled: 0
   cameraTransform: {fileID: 0}
   player: {fileID: 3732170497894972526}
   minGrappleDistance: 0.2
-  maxGrappleDistance: 100
+  maxGrappleDistance: 200
   reticle: {fileID: 0}
 --- !u!54 &3732170497894972523
 Rigidbody:
@@ -267,15 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7533c81ced7a2574a84a7d838237153a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}
-  healthText: {fileID: 0}
-  clockText: {fileID: 0}
-  buttonPressedText: {fileID: 0}
-  finalScoreText: {fileID: 0}
-  finalLivesText: {fileID: 0}
-  finalTimeText: {fileID: 0}
   player: {fileID: 0}
-  levelFinishedScreen: {fileID: 0}
   playerScore: 0
   scorePerCoin: 1
   currentPlayerHealth: 5
