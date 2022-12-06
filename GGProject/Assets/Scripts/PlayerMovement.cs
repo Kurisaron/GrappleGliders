@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject testBullet;
 
     public bool grappleEnabled;
-    private bool grappleActive = false;
+    public bool grappleActive = false;
     private bool grapplingEnemy = false;
     private GameObject grappledEnemy;
     private SpringJoint grappleJoint;
@@ -224,27 +224,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && grappleActive)
         {
-            grappleActive = false;
-            Debug.Log("Grapple has been deactivated.");
-
-            if (grapplingEnemy)
-            {
-                grapplingEnemy = false;
-
-                Destroy(grappledEnemy);
-
-                grappledEnemy = null;
-            }
-
-            if (grappleJoint != null)
-            {
-                Destroy(grappleJoint);
-            }
-
-            if (lineRenderer != null)
-            {
-                Destroy(lineRenderer.gameObject);
-            }
+            DestroyGrapple();
         }
 
         if (grappleActive)
@@ -277,6 +257,31 @@ public class PlayerMovement : MonoBehaviour
             {
                 reticle.color = cantGrappleColor;
             }
+        }
+    }
+
+    public void DestroyGrapple()
+    {
+        grappleActive = false;
+        Debug.Log("Grapple has been deactivated.");
+
+        if (grapplingEnemy)
+        {
+            grapplingEnemy = false;
+
+            Destroy(grappledEnemy);
+
+            grappledEnemy = null;
+        }
+
+        if (grappleJoint != null)
+        {
+            Destroy(grappleJoint);
+        }
+
+        if (lineRenderer != null)
+        {
+            Destroy(lineRenderer.gameObject);
         }
     }
 
