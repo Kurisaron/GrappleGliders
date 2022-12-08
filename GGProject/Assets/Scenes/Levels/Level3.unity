@@ -2583,10 +2583,6 @@ PrefabInstance:
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 413795968}
-    - target: {fileID: 3732170497894972521, guid: afc8e0a017f8fe54d9d21e590302250c, type: 3}
-      propertyPath: maxGrappleDistance
-      value: 45
-      objectReference: {fileID: 0}
     - target: {fileID: 3732170497894972526, guid: afc8e0a017f8fe54d9d21e590302250c, type: 3}
       propertyPath: m_RootOrder
       value: 19

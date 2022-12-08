@@ -237,10 +237,11 @@ MonoBehaviour:
   glider: {fileID: 3732170497181729785}
   testBullet: {fileID: 1140195763081510753, guid: ee2c45e85314dd0479873b16b0a57ea9, type: 3}
   grappleEnabled: 0
+  grappleActive: 0
   cameraTransform: {fileID: 0}
   player: {fileID: 3732170497894972526}
   minGrappleDistance: 0.2
-  maxGrappleDistance: 200
+  maxGrappleDistance: 45
   reticle: {fileID: 0}
 --- !u!54 &3732170497894972523
 Rigidbody:

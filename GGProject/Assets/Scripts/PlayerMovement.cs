@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 grapplePoint;
     public Transform cameraTransform, player;
     public float minGrappleDistance = 0.2f;
-    public float maxGrappleDistance = 200f;
+    public float maxGrappleDistance = 45f;
     private LineRenderer lineRenderer;
     public Image reticle;
     private Color grappleInactiveColor = Color.red;
@@ -125,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position + (Vector3.down * 0.1f), Vector3.down, out hit))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit))
         {
             if (hit.distance <= 1.0f)
             {
